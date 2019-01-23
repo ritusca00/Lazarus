@@ -1,0 +1,19 @@
+create table employee(
+userid NUMBER GENERATED ALWAYS AS IDENTITY(START with 1000 INCREMENT by 1),
+username varchar2(50) not null, --unique
+pwd varchar2(50) not null,
+lastname varchar2(100) not null,
+firstname varchar2(100) not null,
+gender char(1) not null, --F-female/M-male/U-uknown
+birth_date date not null, --constraint 1900<
+email varchar2(100),
+beginning_date date not null,
+leaving_date date,
+posid number, -- FK -> position.posid
+superior number, -- FK -> userid
+CONSTRAINT employee_pk PRIMARY KEY (userid),
+CONSTRAINT username_uq UNIQUE (username),
+CONSTRAINT check_birth_date CHECK (birth_date > DATE'1900-01-01'),
+CONSTRAINT check_gender CHECK (gender in ('F', 'M', 'U')),
+CONSTRAINT superior_fk FOREIGN KEY (superior) REFERENCES employee (userid)
+);
